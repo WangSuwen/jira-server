@@ -1,23 +1,18 @@
-const mongoose    = require('mongoose');
 const config      = require('../config/config.js');
 const logger      = require('pomelo-logger').getLogger('log' , __filename , process.pid);
 const path = require('path');
 const fs = require('fs');
 
-mongoose.Promise = global.Promise;
-const mongoConnection = exports.mongoConnection = mongoose.connect(config.db , function (err) {
+const mysql = require('mysql');
+const pool = exports.pool = mysql.createPool(config.mysql);
+ 
+/* pool.connect(err => {
     if (err) {
-        logger.error('connect to %s error: ' , config.db , err.message);
-        connected = false;
-    } else {
-        logger.info('connect to %s succeed!' , config.db);
-        connected = true;
-        var db    = mongoose.connection;
-        db.on('error' , function () {
-            logger.error('connection error:');
-        });
+      console.error('error connecting: ' + err.stack);
+      return;
     }
-});
+    console.log('connected as id ' + pool.threadId);
+}); */
 
 exports.getModel = function (name) {
     var file = path.join(__dirname , name + '.js');
@@ -32,6 +27,5 @@ exports.getModel = function (name) {
             logger.warn('NO Schema');
         }
     }
-
     return undefined;
 };

@@ -1,13 +1,12 @@
-const mongo = {
-    hostname: '127.0.0.1',
-    port    : 20001,
-    username: '',
-    password: '',
-    name    : '',
-    db      : 'jira'
+const mysql = exports.mysql = {
+    host     : 'localhost',
+    user     : 'me',
+    password : 'secret',
+    database : 'my_db',
+    port: 3306
 };
 
-const generate_mongo_url = function (obj) {
+const generate_mysql_url = function (obj) {
     obj.hostname = obj.hostname || 'localhost';
     obj.port     = obj.port || 27017;
     obj.db       = obj.db || 'test';
@@ -18,4 +17,4 @@ const generate_mongo_url = function (obj) {
     }
 };
 
-exports.db      = generate_mongo_url(mongo);
+exports.db = generate_mysql_url(mysql);
