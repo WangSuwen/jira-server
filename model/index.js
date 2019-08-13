@@ -1,7 +1,4 @@
 const config      = require('../config/config.js');
-// const logger      = require('pomelo-logger').getLogger('log' , __filename , process.pid);
-// const path = require('path');
-// const fs = require('fs');
 
 const mysql = require('mysql');
 const pool = mysql.createPool(config.mysql);
@@ -17,19 +14,3 @@ const connectHandle = exports.connectHandle = () => new Promise((resolve, reject
         }
     });
 });
-
-/* exports.getModel = function (name) {
-    var file = path.join(__dirname , name + '.js');
-
-    //noinspection JSUnresolvedFunction
-    if (fs.existsSync(file)) {
-        var schema = require(file).schema;
-        if (schema) {
-            return mongoose.model(name , schema);
-        }
-        else {
-            logger.warn('NO Schema');
-        }
-    }
-    return undefined;
-}; */

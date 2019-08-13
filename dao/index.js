@@ -1,4 +1,4 @@
-const connectHandler = require('../model/index').connectHandle; //引入上面所讲的数据库基础配置
+const connectHandler = require('../model/index').connectHandle;
 const bluebird = require('bluebird');
 /**
  * 插入数据
@@ -8,28 +8,6 @@ const bluebird = require('bluebird');
 const insertHandler = async (tablename, vals) => {
     const connection = await connectHandler(); // 得到链接
     //开启事务
-    /* connection.beginTransaction(err => {
-        if(err) {
-            return '开启事务失败';
-        } else {
-            //执行INSERT插入操作
-            connection.query(`INSERT INTO ${tablename} SET ?`, vals, (e, rows, fields) => {
-                if (e) {
-                    return connection.rollback(() => {
-                        console.log('插入失败数据回滚');
-                    })
-                } else {
-                    connection.commit((error) => {
-                        if(error) {
-                            console.log('事务提交失败');
-                        }
-                    });
-                    connection.release();  // 释放链接
-                    return { rows, success: true };  // 返回数据库操作结果这里数据格式可根据个人或团队规范来定制
-                }
-            });
-        }
-    }); */
     try {
         await connection.beginTransaction();
         //执行INSERT插入操作
