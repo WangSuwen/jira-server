@@ -1,20 +1,24 @@
 const config      = require('../config/config.js');
-const logger      = require('pomelo-logger').getLogger('log' , __filename , process.pid);
-const path = require('path');
-const fs = require('fs');
+// const logger      = require('pomelo-logger').getLogger('log' , __filename , process.pid);
+// const path = require('path');
+// const fs = require('fs');
 
 const mysql = require('mysql');
-const pool = exports.pool = mysql.createPool(config.mysql);
+const pool = mysql.createPool(config.mysql);
  
-/* pool.connect(err => {
-    if (err) {
-      console.error('error connecting: ' + err.stack);
-      return;
-    }
-    console.log('connected as id ' + pool.threadId);
-}); */
+//返回一个Promise链接
+const connectHandle = exports.connectHandle = () => new Promise((resolve, reject) => {
+    pool.getConnection((err, connection) => {
+        if(err) {
+            console.error('链接错误：' + err.stack + '\n' + '链接ID：' + connection.threadId);
+            reject(err)
+        } else {
+            resolve(connection);
+        }
+    });
+});
 
-exports.getModel = function (name) {
+/* exports.getModel = function (name) {
     var file = path.join(__dirname , name + '.js');
 
     //noinspection JSUnresolvedFunction
@@ -28,4 +32,4 @@ exports.getModel = function (name) {
         }
     }
     return undefined;
-};
+}; */

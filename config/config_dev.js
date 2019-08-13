@@ -1,9 +1,11 @@
 const mysql = exports.mysql = {
     host     : 'localhost',
-    user     : 'me',
-    password : 'secret',
-    database : 'my_db',
-    port: 3306
+    user     : 'root',
+    password : '12345678',
+    database : 'test01',
+    port     : 3306,
+    connectionLimit : 10,
+    insecureAuth : true
 };
 
 const generate_mysql_url = function (obj) {

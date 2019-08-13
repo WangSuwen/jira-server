@@ -1,13 +1,14 @@
 
-// const UserModel = require('../model/index').getModel('user');
-
-const pool = require('../model/index').pool;
+const insertHandler = require('../dao/index').insertHandler;
 exports.save = function (req, res) {
-    pool.query('INSERT INTO user SET ?', {
-        name: '张三', // https://msd.misuland.com/pd/3255817963235710452
-        age: 12
-    }, (err, data) => {
-        console.log(err, data);
-        res.json(err);
+    insertHandler('user', { name: '赵武', age: 10 }).then(data => {
+        if (data.success) {
+            res.json({ok: data.success});
+        } else {
+            res.json({ ok: false, msg: data.msg });
+        }
+    }).catch(e => {
+        console.error(e);
+        res.json(e);
     });
 };
