@@ -5,34 +5,81 @@ const bluebird = require('bluebird');
  * @param {*} tablename 表名
  * @param {*} vals 要保存的字段
  */
-const insertHandler = async (tablename, vals) => {
-    const connection = await connectHandler(); // 得到链接
-    //开启事务
-    try {
-        await connection.beginTransaction();
-        //执行INSERT插入操作
+class DB {
+    constructor () {
+        this.instance = null;
+        this.connection = null;
+        this.query = null;
+        this.getConnection = this.getConnection.bind(this);
+        this.beginTransaction = this.beginTransaction.bind(this);
+        this.commit = this.commit.bind(this);
+        this.rollback = this.rollback.bind(this);
+        this.release = this.release.bind(this);
+        this.getQuery = this.getQuery.bind(this);
+        this.insert = this.insert.bind(this);
+        this.init = this.init.bind(this);
+    }
+    async init () {
+        this.connection = await connectHandler();
+        this.query = bluebird.promisify(this.connection.query, {context: this.connection});
+    }
+    // 得到链接
+    async getConnection () {
+        return this.connection;
+    }
+    // 开启事务
+    async beginTransaction () {
         try {
-            const query = bluebird.promisify(connection.query, {context: connection});
-            // const insert = await query(`INSERT INTO ${tablename} SET ?`, vals);
-            const insert = await query(`INSERT INTO ${tablename} SET name='五六七'`);
-            connection.commit((error) => {
-                if(error) {
-                    console.log('事务提交失败');
-                }
-            });
-            connection.release();  // 释放链接
-            return { insert, success: true };  // 返回数据库操作结果这里数据格式可根据个人或团队规范来定制
+            await this.connection.beginTransaction();
         } catch (e) {
-            connection.rollback(() => {
-                console.log('插入失败数据回滚');
-            });
-            return { success: false, msg: e.message };
-        };
-    } catch (e) {
-        return { msg: '开启事务失败' };
+            throw e;
+        }
+    }
+    // 提交事务
+    async commit () {
+        try {
+            await this.connection.commit();
+        } catch (e) {
+            throw e;
+        }
+    }
+    // 回滚事务
+    async rollback () {
+        try {
+            await this.connection.rollback();
+        } catch (e) {
+            throw e;
+        }
+    }
+    // 释放链接
+    release () {
+        try {
+            this.connection.release();
+        } catch (e) {
+            throw e;
+        }
+    }
+    // 获取 query 
+    getQuery () {
+        return this.query;
+    }
+    /**
+     * 插入数据
+     * @param {String} tableName 表名
+     * @param {Object} val 需要插入的字段  {name: '张三', age: 12}
+     */
+    async insert (tableName, val) {
+        return await this.query(`INSERT INTO ${tableName} SET ?`, val);
     }
 };
 
-module.exports = {
-  insertHandler
-};
+DB.getInstance = async () => {
+    // 没有实例化的时候创建一个该类的实例
+    if (!this.instance) {
+        this.instance = new DB();
+    }
+    await this.instance.init();
+    // 已经实例化了，返回第一次实例化对象的引用
+    return this.instance;
+}
+module.exports = DB;
