@@ -36,3 +36,13 @@ exports.save = async function (req, res) {
         db.release();
     }
 };
+
+exports.search = async function (req, res) {
+    try {
+        const db = await DB.getInstance();
+        const queries = await db.queryAllFieldNoCriteria('user');
+        res.json({ ok: true, queries });
+    } catch (e) {
+        res.json({ ok: false, msg: e.message, stack: e.stack })
+    }
+}

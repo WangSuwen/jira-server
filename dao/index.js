@@ -17,6 +17,7 @@ class DB {
         this.release = this.release.bind(this);
         this.getQuery = this.getQuery.bind(this);
         this.insert = this.insert.bind(this);
+        this.queryAllFieldNoCriteria = this.queryAllFieldNoCriteria.bind(this);
         this.init = this.init.bind(this);
     }
     async init () {
@@ -59,7 +60,7 @@ class DB {
             throw e;
         }
     }
-    // 获取 query 
+    // 获取 query ， 自定义 sql 语句
     getQuery () {
         return this.query;
     }
@@ -70,6 +71,12 @@ class DB {
      */
     async insert (tableName, val) {
         return await this.query(`INSERT INTO ${tableName} SET ?`, val);
+    }
+    async queryAllFieldNoCriteria (tableName) {
+        return await this.query({
+            sql: `SELECT * FROM ${tableName}`,
+            timeout: 3000
+        });
     }
 };
 
