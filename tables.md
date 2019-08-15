@@ -19,3 +19,8 @@
 | key | VARCHAR | not null, unique | 项目的key，id的替代品 |
 
 ### 3、proj_follow_rel (项目关注关系表)
+|字段名|类型|默认值|描述|
+|--|--|--|--|
+| proj_id | INT | not null | 项目ID |
+| user_id | INT | not null | 关注人ID |
+| follow | INT | not null | 是否关注  0：否；1： 是 |
