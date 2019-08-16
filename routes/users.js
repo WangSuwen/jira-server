@@ -9,5 +9,8 @@ router.get('/', function(req, res, next) {
 router.get('/search', function(req, res, next) {
   userCtr.search(req, res);
 });
+router.get('/register', function(req, res, next) {
+  userCtr.register(req, res);
+});
 
 module.exports = router;
