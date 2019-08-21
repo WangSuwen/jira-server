@@ -13,8 +13,9 @@ exports.save = async function (req, res) {
         console.error(e);
         res.json(e);
     }); */
+    let db;
     try {
-        const db = await DB.getInstance();
+        db = await DB.getInstance();
         // const connections = await db.getConnection();
         await db.beginTransaction();
         // 并行的数据库操作
@@ -57,8 +58,9 @@ exports.register = async function (req, res) {
     if (!id || !account || !password || !name || !avatar) {
         return result.failed(result.PARAMS_ERROR, res);
     }
+    let db;
     try {
-        const db = await DB.getInstance();
+        db = await DB.getInstance();
         const user = await db.insert('user', { id, account, password, name, avatar });
         console.log(user);
         return result.success(user, res);
