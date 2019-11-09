@@ -1,5 +1,14 @@
 const connectHandler = require('./index').connectHandle;
 const bluebird = require('bluebird');
+
+/**
+ * 查询语句预处理   https://www.npmjs.com/package/mysql#preparing-queries
+ *  var sql = "SELECT * FROM ?? WHERE ?? = ?";
+    var inserts = ['users', 'id', userId];
+    sql = mysql.format(sql, inserts);
+ */
+
+
 /**
  * 插入数据
  * @param {*} tablename 表名
