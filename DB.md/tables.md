@@ -7,7 +7,12 @@
 | name | VARCHAR | not null | 姓名 |
 | avatar | VARCHAR |  | 头像 |
 ```
-
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(10) NOT NULL DEFAULT '' COMMENT '姓名',
+  `age` int(11) NOT NULL DEFAULT '0' COMMENT '年龄',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ```
 ### 2、project (项目)
 |字段名|类型|默认值|描述|

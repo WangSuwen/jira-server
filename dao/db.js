@@ -1,5 +1,6 @@
 const connectHandler = require('./index').connectHandle;
 const bluebird = require('bluebird');
+const mysql = require('mysql');
 
 /**
  * 查询语句预处理   https://www.npmjs.com/package/mysql#preparing-queries
@@ -24,9 +25,9 @@ class DB {
         this.commit = this.commit.bind(this);
         this.rollback = this.rollback.bind(this);
         this.release = this.release.bind(this);
-        this.getQuery = this.getQuery.bind(this);
-        this.insert = this.insert.bind(this);
-        this.queryAllFieldNoCriteria = this.queryAllFieldNoCriteria.bind(this);
+        // this.getQuery = this.getQuery.bind(this);
+        // this.insertOne = this.insertOne.bind(this);
+        // this.queryAllFieldNoCriteria = this.queryAllFieldNoCriteria.bind(this);
         this.init = this.init.bind(this);
     }
     async init () {
@@ -70,22 +71,33 @@ class DB {
         }
     }
     // 获取 query ， 自定义 sql 语句
-    getQuery () {
+    /* getQuery () {
         return this.query;
-    }
+    } */
+
+    // --------------- SQL -----------------
     /**
-     * 插入数据
+     * 插入单条数据
      * @param {String} tableName 表名
      * @param {Object} val 需要插入的字段  {name: '张三', age: 12}
      */
-    async insert (tableName, val) {
+    async insertOne (tableName, val) {
         return await this.query(`INSERT INTO ${tableName} SET ?`, val);
     }
-    async queryAllFieldNoCriteria (tableName) {
+    /**
+     * 查询 -- 不带任何查询条件
+     * @param {String} fields 字段名 'name, age' 或 '*'
+     * @param {String} tableName 表名
+     */
+    async queryAllFieldNoCriteria (fields, tableName) {
         return await this.query({
-            sql: `SELECT * FROM ${tableName}`,
+            sql: `SELECT ${fields} FROM ${tableName}`,
             timeout: 3000
         });
+    }
+    // 参数转义
+    escapingParams (params) {
+        return mysql.escape(params);
     }
 };
 

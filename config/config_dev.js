@@ -1,14 +1,14 @@
 const mysql = exports.mysql = {
     host     : 'localhost',
     user     : 'root',
-    password : '12345678',
+    password : '123456',
     database : 'jira',
     port     : 3306,
     connectionLimit : 10,
     insecureAuth : true
 };
 
-const generate_mysql_url = function (obj) {
+/* const generate_mysql_url = function (obj) {
     obj.hostname = obj.hostname || 'localhost';
     obj.port     = obj.port || 27017;
     obj.db       = obj.db || 'test';
@@ -19,4 +19,4 @@ const generate_mysql_url = function (obj) {
     }
 };
 
-exports.db = generate_mysql_url(mysql);
+exports.db = generate_mysql_url(mysql); */
