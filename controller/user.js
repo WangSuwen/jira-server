@@ -83,6 +83,7 @@ exports.register = async function (req, res) {
     if (!id || !account || !password || !name || !avatar) {
         return result.failed(result.PARAMS_ERROR, res);
     }
+    let db;
     try {
         const db = await DB.getInstance();
         const user = await db.insertOne('user', { id, account, password, name, avatar });
