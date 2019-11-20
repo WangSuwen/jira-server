@@ -30,6 +30,18 @@ exports.save = async function (req, res) {
     }
 };
 
+// 登录
+exports.login = async function (req, res) {
+    try {
+        const user_name = req.query.user_name;
+        const password = req.query.password;
+        if (!user_name || !password) return result.failed(result.PARAMS_ERROR, res);
+        
+    } catch (e) {
+
+    }
+};
+
 exports.search = async function (req, res) {
     try {
         const db = await DB.getInstance();

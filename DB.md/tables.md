@@ -1,16 +1,15 @@
 ### 1、user
-|字段名|类型|默认值|描述|
-|--|--|--|--|
-|id|INT| not null | ID |
-| account | VARCHAR | not null | 账号 |
-| password | VARCHAR | not null | 密码 |
-| name | VARCHAR | not null | 姓名 |
-| avatar | VARCHAR |  | 头像 |
 ```
 CREATE TABLE `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(10) NOT NULL DEFAULT '' COMMENT '姓名',
   `age` int(11) NOT NULL DEFAULT '0' COMMENT '年龄',
+  `avatar` varchar(45) DEFAULT NULL COMMENT '头像',
+  `account` varchar(20) DEFAULT NULL COMMENT '账号',
+  `password` varchar(45) DEFAULT NULL,
+  `created_at` datetime DEFAULT CURRENT_TIMESTAMP COMMENT '添加时间',
+  `updated_at` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '最新更新时间',
+  `deleted_at` datetime DEFAULT NULL COMMENT '删除时间',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci
 ```

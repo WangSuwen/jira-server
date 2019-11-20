@@ -2,9 +2,13 @@ var express = require('express');
 var router = express.Router();
 const userCtr = require('../controller/user');
 
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   userCtr.save(req, res);
+});
+router.get('/login', function(req, res, next) {
+  userCtr.login(req, res);
 });
 router.get('/preparingInsert', function(req, res, next) {
   userCtr.preparingInsert(req, res);
