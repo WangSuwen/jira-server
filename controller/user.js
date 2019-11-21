@@ -2,6 +2,68 @@
 const DB = require('../dao/db');
 const result = require('../dao/result');
 const userSql = require('../dao/sql/user');
+const utils = require('../utils/index');
+
+// 登录
+exports.login = async function (req, res) {
+    try {
+        const account = req.query.account;
+        const password = req.query.password;
+        if (!account || !password) return result.failed(result.PARAMS_ERROR, res);
+        const db = await DB.getInstance();
+        const user = await db.query(userSql.queryByAccount, account);
+        if (user) return result.failed(result.USER_NOT_EXIST, res);
+        if (user.password == utils.md5(password)) {
+            const data = {
+                id      : user.id,
+                name    : user.name,
+                time    : Date.now()
+            };
+            utils.setCookie(data, settings, res);
+            return result.success(user, res);
+        } else {
+            return result.failed(result.USER_LOGIN_PASSWORD_ERROR, res);
+        }
+    } catch (e) {
+        res.json({ ok: false, msg: e.message, stack: e.stack })
+    } finally {
+        db.release();
+    }
+};
+
+// 注册
+exports.register = async function (req, res) {
+    const account = req.body.account; // | VARCHAR | not null | 账号 |
+    const password = req.body.password; // | VARCHAR | not null | 密码 |
+    const name = req.body.name; // | VARCHAR | not null | 姓名 |
+    const avatar = req.body.avatar;
+    if (!account || !password || !name) {
+        return result.failed(result.PARAMS_ERROR, res);
+    }
+    let db;
+    try {
+        const db = await DB.getInstance();
+        const user = await db.insertOne('user', { id, account, password, name, avatar });
+        console.log(user);
+        return result.success(user, res);
+    } catch (e) {
+        console.error(e);
+        return result.failed(result.SYSTEM_ERROR, res);
+    } finally {
+        db.release();
+    }
+};
+
+
+
+
+
+
+
+
+
+
+
 exports.save = async function (req, res) {
     const db = await DB.getInstance();
     try {
@@ -30,18 +92,6 @@ exports.save = async function (req, res) {
     }
 };
 
-// 登录
-exports.login = async function (req, res) {
-    try {
-        const user_name = req.query.user_name;
-        const password = req.query.password;
-        if (!user_name || !password) return result.failed(result.PARAMS_ERROR, res);
-        
-    } catch (e) {
-
-    }
-};
-
 exports.search = async function (req, res) {
     try {
         const db = await DB.getInstance();
@@ -49,6 +99,8 @@ exports.search = async function (req, res) {
         res.json({ ok: true, queries });
     } catch (e) {
         res.json({ ok: false, msg: e.message, stack: e.stack })
+    } finally {
+        db.release();
     }
 };
 
@@ -59,6 +111,8 @@ exports.preparingQuery = async function (req, res) {
         res.json({ ok: true, queries });
     } catch (e) {
         res.json({ ok: false, msg: e.message, stack: e.stack })
+    } finally {
+        db.release();
     }
 };
 exports.preparingInsert = async function (req, res) {
@@ -69,6 +123,8 @@ exports.preparingInsert = async function (req, res) {
     } catch (e) {
         console.error(e);
         res.json({ ok: false, msg: e.message, stack: e.stack })
+    } finally {
+        db.release();
     }
 };
 exports.preparingInsertMulti = async function (req, res) {
@@ -81,29 +137,6 @@ exports.preparingInsertMulti = async function (req, res) {
     } catch (e) {
         console.error(e);
         res.json({ ok: false, msg: e.message, stack: e.stack })
-    }
-};
-
-
-
-exports.register = async function (req, res) {
-    const id = req.body.id; // | INT | not null | ID |
-    const account = req.body.account; // | VARCHAR | not null | 账号 |
-    const password = req.body.password; // | VARCHAR | not null | 密码 |
-    const name = req.body.name; // | VARCHAR | not null | 姓名 |
-    const avatar = req.body.avatar;
-    if (!id || !account || !password || !name || !avatar) {
-        return result.failed(result.PARAMS_ERROR, res);
-    }
-    let db;
-    try {
-        const db = await DB.getInstance();
-        const user = await db.insertOne('user', { id, account, password, name, avatar });
-        console.log(user);
-        return result.success(user, res);
-    } catch (e) {
-        console.error(e);
-        return result.failed(result.SYSTEM_ERROR, res);
     } finally {
         db.release();
     }

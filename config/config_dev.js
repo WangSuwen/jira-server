@@ -8,6 +8,11 @@ const mysql = exports.mysql = {
     insecureAuth : true
 };
 
+exports.settings = {
+    cookie_name: 'jira_cookie',
+    cookie_encrypt_secret: 'jira_cookie_20191112'
+};
+
 /* const generate_mysql_url = function (obj) {
     obj.hostname = obj.hostname || 'localhost';
     obj.port     = obj.port || 27017;

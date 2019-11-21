@@ -30,9 +30,18 @@ Result.success = function (data, res) {
     });
 };
 
-
-Result.PARAMS_ERROR                             = '10003';
-code_msg[Result.PARAMS_ERROR]                   = '参数错误';
+// 系统相关
 Result.SYSTEM_ERROR                             = '50000';
 code_msg[Result.SYSTEM_ERROR]                   = '系统错误';
+Result.PARAMS_ERROR                             = '50001';
+code_msg[Result.PARAMS_ERROR]                   = '参数错误';
+
+
+// 用户相关
+Result.USER_NOT_EXIST                             = '10000';
+code_msg[Result.USER_NOT_EXIST]                   = '用户不存在';
+Result.USER_LOGIN_PASSWORD_ERROR                  = '10001';
+code_msg[Result.USER_LOGIN_PASSWORD_ERROR]        = '密码错误';
+
+
 module.exports = Result;

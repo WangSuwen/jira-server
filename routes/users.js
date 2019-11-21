@@ -7,9 +7,18 @@ const userCtr = require('../controller/user');
 router.get('/', function(req, res, next) {
   userCtr.save(req, res);
 });
+// 登录
 router.get('/login', function(req, res, next) {
   userCtr.login(req, res);
 });
+// 注册
+router.get('/register', function(req, res, next) {
+  userCtr.register(req, res);
+});
+
+
+
+
 router.get('/preparingInsert', function(req, res, next) {
   userCtr.preparingInsert(req, res);
 });
@@ -21,9 +30,6 @@ router.get('/search', function(req, res, next) {
 });
 router.get('/preparingQuery', function(req, res, next) {
   userCtr.preparingQuery(req, res);
-});
-router.get('/register', function(req, res, next) {
-  userCtr.register(req, res);
 });
 
 module.exports = router;
