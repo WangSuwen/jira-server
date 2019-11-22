@@ -17,6 +17,7 @@ exports.login = async function (req, res) {
             const data = {
                 id      : user.id,
                 name    : user.name,
+                avatar  : user.avatar,
                 time    : Date.now()
             };
             utils.setCookie(data, settings, res);
@@ -34,7 +35,7 @@ exports.login = async function (req, res) {
 // 注册
 exports.register = async function (req, res) {
     const account = req.body.account; // | VARCHAR | not null | 账号 |
-    const password = req.body.password; // | VARCHAR | not null | 密码 |
+    let password = req.body.password; // | VARCHAR | not null | 密码 |
     const name = req.body.name; // | VARCHAR | not null | 姓名 |
     const avatar = req.body.avatar;
     if (!account || !password || !name) {
@@ -42,8 +43,9 @@ exports.register = async function (req, res) {
     }
     let db;
     try {
-        const db = await DB.getInstance();
-        const user = await db.insertOne('user', { id, account, password, name, avatar });
+        db = await DB.getInstance();
+        password = utils.md5(password);
+        const user = await db.insertOne('user', { account, password, name, avatar });
         console.log(user);
         return result.success(user, res);
     } catch (e) {

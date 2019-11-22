@@ -12,9 +12,7 @@ router.get('/login', function(req, res, next) {
   userCtr.login(req, res);
 });
 // 注册
-router.get('/register', function(req, res, next) {
-  userCtr.register(req, res);
-});
+router.post('/register', userCtr.register);
 
 
 

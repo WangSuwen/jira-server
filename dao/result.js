@@ -24,23 +24,23 @@ Result.failed = function (code, res, msg) {
  */
 Result.success = function (data, res) {
     return res.json({
-        code: '200',
+        code: 200,
         data: data,
         msg : '操作成功'
     });
 };
 
 // 系统相关
-Result.SYSTEM_ERROR                             = '50000';
+Result.SYSTEM_ERROR                             = 50000;
 code_msg[Result.SYSTEM_ERROR]                   = '系统错误';
-Result.PARAMS_ERROR                             = '50001';
+Result.PARAMS_ERROR                             = 50001;
 code_msg[Result.PARAMS_ERROR]                   = '参数错误';
 
 
 // 用户相关
-Result.USER_NOT_EXIST                             = '10000';
+Result.USER_NOT_EXIST                             = 10000;
 code_msg[Result.USER_NOT_EXIST]                   = '用户不存在';
-Result.USER_LOGIN_PASSWORD_ERROR                  = '10001';
+Result.USER_LOGIN_PASSWORD_ERROR                  = 10001;
 code_msg[Result.USER_LOGIN_PASSWORD_ERROR]        = '密码错误';
 
 
