@@ -3,6 +3,7 @@ const DB = require('../dao/db');
 const result = require('../dao/result');
 const userSql = require('../dao/sql/user');
 const utils = require('../utils/index');
+const settings = require('../config/config').settings;
 
 // 登录
 exports.login = async function (req, res) {
@@ -15,10 +16,10 @@ exports.login = async function (req, res) {
         const user = await db.query(userSql.queryByAccount, account);
         if (!user) return result.failed(result.USER_NOT_EXIST, res);
         if (user[0].password == utils.md5(password)) {
+            delete user[0].password;
             const data = {
                 id      : user[0].id,
                 name    : user[0].name,
-                avatar  : user[0].avatar,
                 time    : Date.now()
             };
             utils.setCookie(data, settings, res);
@@ -27,7 +28,8 @@ exports.login = async function (req, res) {
             return result.failed(result.USER_LOGIN_PASSWORD_ERROR, res);
         }
     } catch (e) {
-        res.json({ ok: false, msg: e.message, stack: e.stack })
+        console.error(e);
+        return result.failed(result.SYSTEM_ERROR, res);
     } finally {
         db.release();
     }
