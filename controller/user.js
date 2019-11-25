@@ -6,22 +6,23 @@ const utils = require('../utils/index');
 
 // 登录
 exports.login = async function (req, res) {
+    let db;
     try {
-        const account = req.query.account;
-        const password = req.query.password;
+        const account = req.body.account;
+        const password = req.body.password;
         if (!account || !password) return result.failed(result.PARAMS_ERROR, res);
-        const db = await DB.getInstance();
+        db = await DB.getInstance();
         const user = await db.query(userSql.queryByAccount, account);
-        if (user) return result.failed(result.USER_NOT_EXIST, res);
-        if (user.password == utils.md5(password)) {
+        if (!user) return result.failed(result.USER_NOT_EXIST, res);
+        if (user[0].password == utils.md5(password)) {
             const data = {
-                id      : user.id,
-                name    : user.name,
-                avatar  : user.avatar,
+                id      : user[0].id,
+                name    : user[0].name,
+                avatar  : user[0].avatar,
                 time    : Date.now()
             };
             utils.setCookie(data, settings, res);
-            return result.success(user, res);
+            return result.success(user[0], res);
         } else {
             return result.failed(result.USER_LOGIN_PASSWORD_ERROR, res);
         }

@@ -8,9 +8,7 @@ router.get('/', function(req, res, next) {
   userCtr.save(req, res);
 });
 // 登录
-router.get('/login', function(req, res, next) {
-  userCtr.login(req, res);
-});
+router.post('/login', userCtr.login);
 // 注册
 router.post('/register', userCtr.register);
 

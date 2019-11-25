@@ -7,6 +7,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const settings = require('./config/config').settings;
 
 var app = express();
 var cors = require('cors');
@@ -32,7 +33,7 @@ app.use(session({
  * 跨域设置 -- START
  */
 let getterOrigin;
-const whitelist = ['loveruoxi.com', 'http://localhost:8081'];
+const whitelist = ['http://localhost:8081', 'http://127.0.0.1:8081'];
 var corsOptions = {
   origin: function (origin, callback) {
     let reg;
