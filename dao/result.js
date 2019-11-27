@@ -42,6 +42,8 @@ Result.USER_NOT_EXIST                             = 10000;
 code_msg[Result.USER_NOT_EXIST]                   = '用户不存在';
 Result.USER_LOGIN_PASSWORD_ERROR                  = 10001;
 code_msg[Result.USER_LOGIN_PASSWORD_ERROR]        = '密码错误';
+Result.USER_LOGIN_ERROR                           = 10002;
+code_msg[Result.USER_LOGIN_ERROR]                 = '用户未登录';
 
 
 module.exports = Result;

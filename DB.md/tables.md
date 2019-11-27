@@ -16,7 +16,7 @@ CREATE TABLE `user` (
 ### 2、project (项目)
 |字段名|类型|默认值|描述|
 |--|--|--|--|
-|id|INT| not null | ID |
+| id | INT | not null | ID |
 | name | VARCHAR | not null | 项目名称 |
 | created_at | DATE | not null | 创建时间 |
 | created_by | VARCHAR | not null | 创建人 ID |
