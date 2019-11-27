@@ -18,9 +18,12 @@ CREATE TABLE `user` (
 |--|--|--|--|
 | id | INT | not null | ID |
 | name | VARCHAR | not null | 项目名称 |
+| key | VARCHAR | not null, unique | 项目的key，id的替代品 |
+| status | INT | not null | 项目的状态， 0：关闭；1：开启；2： |
+| group_id | INT | null | 项目组ID |
+| description | VARCHAR | null | 项目描述 |
 | created_at | DATE | not null | 创建时间 |
 | created_by | VARCHAR | not null | 创建人 ID |
-| key | VARCHAR | not null, unique | 项目的key，id的替代品 |
 
 ### 3、proj_follow_rel (项目关注关系表)
 |字段名|类型|默认值|描述|
