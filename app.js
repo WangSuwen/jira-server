@@ -33,7 +33,7 @@ app.use(session({
  * 跨域设置 -- START
  */
 let getterOrigin;
-const whitelist = ['http://localhost:8081', 'http://127.0.0.1:8081'];
+const whitelist = ['http://localhost:9000', 'http://127.0.0.1:9000'];
 var corsOptions = {
   origin: function (origin, callback) {
     let reg;

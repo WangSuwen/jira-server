@@ -22,7 +22,7 @@ exports.login = async function (req, res) {
                 name    : user[0].name,
                 time    : Date.now()
             };
-            utils.setCookie(data, settings, res);
+            utils.setCookie(data, res);
             return result.success(user[0], res);
         } else {
             return result.failed(result.USER_LOGIN_PASSWORD_ERROR, res);
@@ -58,7 +58,19 @@ exports.register = async function (req, res) {
         db.release();
     }
 };
-
+exports.getAllUsers = async function (req, res) {
+    let db;
+    try {
+        db = await DB.getInstance();
+        const userList = await db.queryAllFieldNoCriteria('user', 'name, age');
+        return result.success(userList, res);
+    } catch (e) {
+        console.log(e.stack);
+        return result.failed(result.SYSTEM_ERROR, res);
+    } finally {
+        db.release();
+    }
+};
 
 
 
@@ -97,17 +109,6 @@ exports.save = async function (req, res) {
     }
 };
 
-exports.search = async function (req, res) {
-    try {
-        const db = await DB.getInstance();
-        const queries = await db.queryAllFieldNoCriteria('name, age', 'user');
-        res.json({ ok: true, queries });
-    } catch (e) {
-        res.json({ ok: false, msg: e.message, stack: e.stack })
-    } finally {
-        db.release();
-    }
-};
 
 exports.preparingQuery = async function (req, res) {
     try {

@@ -86,10 +86,10 @@ class DB {
     }
     /**
      * 查询 -- 不带任何查询条件
-     * @param {String} fields 字段名 'name, age' 或 '*'
      * @param {String} tableName 表名
+     * @param {String} fields 字段名 'name, age' 或 '*'
      */
-    async queryAllFieldNoCriteria (fields, tableName) {
+    async queryAllFieldNoCriteria (tableName, fields) {
         return await this.query({
             sql: `SELECT ${fields} FROM ${tableName}`,
             timeout: 3000

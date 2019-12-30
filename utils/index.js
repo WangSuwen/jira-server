@@ -26,8 +26,8 @@ exports.decrypt = function (str, secret) {
 };
 
 
-exports.setCookie = function (data, settings, res) {
+exports.setCookie = function (data, res) {
     const source = JSON.stringify(data);
-    const code = encrypt(source, settings.cookie_encrypt_secret);
+    const code = encrypt(source, settings.cookie_name);
     res.cookie(settings.cookie_name, code);//, {maxAge: 1000 * 60 * 60 * 24}
 }

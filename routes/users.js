@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const userCtr = require('../controller/user');
+const commonCtr = require('../controller/common');
 
 
 /* GET users listing. */
@@ -13,6 +14,9 @@ router.post('/login', userCtr.login);
 router.post('/register', userCtr.register);
 
 
+router.get('/getAllUsers', commonCtr.authUser, function(req, res, next) {
+  userCtr.getAllUsers(req, res);
+});
 
 
 router.get('/preparingInsert', function(req, res, next) {
@@ -20,9 +24,6 @@ router.get('/preparingInsert', function(req, res, next) {
 });
 router.get('/preparingInsertMulti', function(req, res, next) {
   userCtr.preparingInsertMulti(req, res);
-});
-router.get('/search', function(req, res, next) {
-  userCtr.search(req, res);
 });
 router.get('/preparingQuery', function(req, res, next) {
   userCtr.preparingQuery(req, res);

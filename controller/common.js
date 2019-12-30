@@ -8,9 +8,9 @@ exports.authUser = function (req, res, next) {
     if (cookie) {
         let code = '';
         try {
-            code = utils.decrypt(cookie, settings.cookie_encrypt_secret);
+            code = utils.decrypt(cookie, settings.cookie_name);
         } catch (e) {
-            res.cookie(settings.cookie_name, null, {maxAge: 0});//, {maxAge: 1000 * 60 * 60 * 24}
+            utils.setCookie(null, res);
             return result.failed(result.USER_LOGIN_ERROR, res);
         }
         const data = JSON.parse(code);
@@ -21,13 +21,13 @@ exports.authUser = function (req, res, next) {
                 //每一分钟更新一次
                 if (lapse >= (60 * 1000 * 1)) {
                     data.time = Date.now();
-                    setCookie(data, res);
+                    utils.setCookie(data, res);
                 }
                 req.user             = data;
                 res.locals.auth_user = req.user;
             } else {
                 //清理cookie
-                res.cookie(settings.cookie_name, null, {maxAge: 0});//, {maxAge: 1000 * 60 * 60 * 24}
+                utils.setCookie(null, res);
             }
         }
     }
