@@ -8,6 +8,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 const settings = require('./config/config').settings;
+const eventSourceCtr = require('./controller/eventSrouce');
 
 var app = express();
 var cors = require('cors');
@@ -64,6 +65,13 @@ app.use(function (req, res, next) {
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+
+// EventSource 实现消息推送 --START
+app.get('/eventSource', eventSourceCtr.sendMsg);
+app.get('/test', (req, res) => {
+  res.send('99999');
+});
+// EventSource 实现消息推送 --END
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
